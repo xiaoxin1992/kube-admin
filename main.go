@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"flag"
+	"fmt"
 	_ "github.com/xiaoxin1992/kube-admin/apis"
 	"github.com/xiaoxin1992/kube-admin/pkg/config"
 	"github.com/xiaoxin1992/kube-admin/pkg/database"
@@ -15,7 +17,16 @@ import (
 	"syscall"
 )
 
+var ver bool
+
 func main() {
+
+	flag.BoolVar(&ver, "v", false, "show version info")
+	flag.Parse()
+	if ver {
+		fmt.Println(version.FullVersion())
+		return
+	}
 	wg := sync.WaitGroup{}
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
