@@ -30,6 +30,7 @@ func main() {
 	go func() {
 		defer wg.Done()
 		gx.WaitStop(ch, ctx)
+		db.Destroy()
 	}()
 	go func() {
 		defer wg.Done()
