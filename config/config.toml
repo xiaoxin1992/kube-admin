@@ -1,0 +1,42 @@
+level = "debug"
+
+[http]
+host = "127.0.0.1"
+port = 8080
+
+[logger]
+path = "logs/kms.log"
+IsFile = true               # 是否日志写入文件
+console = true              # 是否在consul打印日志
+format = "text"             # text或json格式
+maxSize = 1                 # 保留日志大小单位MB超过大小会被切割
+maxBackup = 7               # 最大可保留多个日志
+maxAge = 7                  # 最大保留日志天数
+localTime = true            # 使用本地时间，否则使用utc时间
+compress = false            #  是否切割日志时候压缩日志
+
+[mysql]
+host = "127.0.0.1"
+port = 3306
+database = "kube_admin"
+user = "root"
+password = "root"
+maxLifeTime = 1800
+maxOpen = 100
+maxIdle = 10
+
+[jwt]
+token = "jwt_secret"
+expire_time = 120
+super_admin = "admin"
+super_passwd = "123456"
+
+[[cluster]]
+name = "beijing"
+host = "https://127.0.0.1:59324"
+token = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ikw3bC1OUTA5UTR0Y3VxbnJBVm9jM3RHd3MzMENReUpqRWR6dUNYc1UzQ2MifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzA3MDI5NDAxLCJpYXQiOjE3MDcwMjU4MDEsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJhZG1pbi11c2VyIiwidWlkIjoiMzMzMzk4OGItNDA4MS00MGY2LThmYTQtZGU0YTQ4ODE4MzcyIn19LCJuYmYiOjE3MDcwMjU4MDEsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDphZG1pbi11c2VyIn0.fb71MoST2ZJlhiTONZQqxzwKTXZDZSmB3bK73jTZPvW34d7ja3vE2QTAyWYewP8_iCaGKjtBh60nXOZJmUaRkxU5s1H1o6AfbcHHhiElHHE35-WsJPuGxIdUOJuXuXwYjo2wViqPo8BffVgqVi-pvuIicOEAFiJ_Xqp-QYz3E9l3ujCZHjT9n2I6eIRHhHpX9XbgrrUeXskR0Yym43q9S6hEJjjkvZaW4l_gBajf9SgD58VymrQWXXFY4v_HDrGzf7rLVEoqkCFaDWFE25aRWcHUfbcJgYDu_YiQS7cPmTZ4aWmu119clWoi64J4l7jZxUzq4bUO50q6itsnCBhi5A"
+
+[[cluster]]
+name = "shanghai"
+host = "https://127.0.0.1:59325"
+token = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ikw3bC1OUTA5UTR0Y3VxbnJBVm9jM3RHd3MzMENReUpqRWR6dUNYc1UzQ2MifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzA2NzU2MjkyLCJpYXQiOjE3MDY3NTI2OTIsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJhZG1pbi11c2VyIiwidWlkIjoiMzMzMzk4OGItNDA4MS00MGY2LThmYTQtZGU0YTQ4ODE4MzcyIn19LCJuYmYiOjE3MDY3NTI2OTIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDphZG1pbi11c2VyIn0.R6N_iYzPv1caiPliQ5FdCkcCYsu0izVQUCARMyPKTOcXJF72zB7FtEcWMAFPCbBRHBaPTiV_3B_s-IDuhrAVHlkxDx_UCgda9uhTGANcQSZI97jgKFb_aWh6jQX9kYf76QkRSXvGcKgGE0ltVeXkJ1rH9uqcts39snAW0kk2doOo6CC-fX8hyq1sZXRn4IzhWBc_PBJ73Che9TsfUHX-NGtpaXVmlXiDuio8QGG-JmSnGQ1_NtlaVQuhx7XLgbFdRxeRMzKLBU5ZXGCEDAIn4RAWdZ2zIqAfIb6ysiLGaTpAjGjV1SGWKiWRmxLoTZmQmcIcqzCCLC47l5UQBGBH8Q"
