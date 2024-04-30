@@ -45,7 +45,7 @@ type ResetPassword struct {
 }
 
 type DeleteUser struct {
-	Username string `json:"username"`
+	Username string `json:"username" form:"username" binding:"required"`
 }
 
 type Response struct {

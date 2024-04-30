@@ -16,8 +16,6 @@ func (d *dao) ListUserCount(ctx context.Context, request models.QueryList) (tota
 		sql += " where username like ?"
 		args = append(args, fmt.Sprintf("%%%s%%", request.Query))
 	}
-	fmt.Println(sql)
-	fmt.Println(args)
 	err = db.QueryRowContext(ctx, sql, args...).Scan(&total)
 	return
 }
