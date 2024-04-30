@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/xiaoxin1992/kube-admin/apis/auth"
+	"github.com/xiaoxin1992/kube-admin/apis/cluster"
 	"github.com/xiaoxin1992/kube-admin/apis/ping"
 	"github.com/xiaoxin1992/kube-admin/apis/users"
 	"github.com/xiaoxin1992/kube-admin/pkg/ginx"
@@ -18,6 +19,7 @@ func init() {
 	/* ping 接口开始 */
 	register(http.MethodGet, "ping", false, ping.List)
 	/* ping 接口结束 */
+
 	/* 登陆接口开始*/
 	register(http.MethodPost, "login", false, auth.Login)
 	/* 登陆接口结束*/
@@ -31,5 +33,9 @@ func init() {
 	/* 用户接口结束 */
 
 	/*cluster 集群管理接口开始*/
+	register(http.MethodPost, "/cluster/create", true, cluster.CrateCluster)
+	register(http.MethodPost, "/cluster/update", true, cluster.UpdateCluster)
+	register(http.MethodPost, "/cluster/delete", true, cluster.DeleteCluster)
+	register(http.MethodGet, "/cluster/list", true, cluster.ListCluster)
 	/*cluster 集群管理接口结束*/
 }
