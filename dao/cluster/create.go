@@ -21,7 +21,7 @@ func (d *Dao) CreateUser(ctx context.Context, cluster *models.CreateCluster) (er
 			tx.Commit()
 		}
 	}()
-	sql := "insert into cluster(zone, host, token, version remark) value (?, ?, ?, ?,?)"
+	sql := "insert into cluster(zone, host, token, version, remark) value (?, ?, ?, ?,?)"
 	stmt, err := tx.PrepareContext(ctx, sql)
 	if err != nil {
 		d.logger.Errorf("prepare statement error %v", err)
