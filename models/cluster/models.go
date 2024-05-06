@@ -9,9 +9,15 @@ type Cluster struct {
 	Remark string `json:"remark" form:"id" binding:"required"`
 }
 
+type CreateCluster struct {
+	Cluster
+	Version string `json:"version"`
+}
+
 type QueryCluster struct {
 	Id int64 `json:"id"`
 	Cluster
+	Version    string        `json:"version"`
 	CreateTime models.CNTime `json:"create_time"`
 	UpdateTime models.CNTime `json:"update_time"`
 }

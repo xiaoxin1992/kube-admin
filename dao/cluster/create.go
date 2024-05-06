@@ -6,7 +6,7 @@ import (
 	"github.com/xiaoxin1992/kube-admin/pkg/database"
 )
 
-func (d *Dao) CreateUser(ctx context.Context, cluster *models.Cluster) (err error) {
+func (d *Dao) CreateUser(ctx context.Context, cluster *models.CreateCluster) (err error) {
 	db := database.GetPool().GetSqlDB()
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
@@ -21,13 +21,13 @@ func (d *Dao) CreateUser(ctx context.Context, cluster *models.Cluster) (err erro
 			tx.Commit()
 		}
 	}()
-	sql := "insert into cluster(zone, host, token, remark) value (?, ?, ?, ?)"
+	sql := "insert into cluster(zone, host, token, version remark) value (?, ?, ?, ?,?)"
 	stmt, err := tx.PrepareContext(ctx, sql)
 	if err != nil {
 		d.logger.Errorf("prepare statement error %v", err)
 		return
 	}
 	defer stmt.Close()
-	_, err = stmt.ExecContext(ctx, cluster.Zone, cluster.Host, cluster.Token, cluster.Remark)
+	_, err = stmt.ExecContext(ctx, cluster.Zone, cluster.Host, cluster.Token, cluster.Version, cluster.Remark)
 	return
 }

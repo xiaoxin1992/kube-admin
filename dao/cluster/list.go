@@ -23,7 +23,7 @@ func (d *Dao) ListClusterCount(ctx context.Context, request models.QueryList) (t
 func (d *Dao) ListCluster(ctx context.Context, request models.QueryList) (response []models.QueryCluster, err error) {
 	db := database.GetPool().GetSqlDB()
 	response = make([]models.QueryCluster, 0)
-	sql := "select id, zone, host, token, remark, create_time, update_time from cluster"
+	sql := "select id, zone, host, token, remark, version, create_time, update_time from cluster"
 	var args []interface{}
 	if strings.TrimSpace(request.Query) != "" {
 		sql += " where zone like ?"
@@ -44,7 +44,7 @@ func (d *Dao) ListCluster(ctx context.Context, request models.QueryList) (respon
 	}
 	for rows.Next() {
 		var cluster models.QueryCluster
-		err = rows.Scan(&cluster.Id, &cluster.Zone, &cluster.Host, &cluster.Token, &cluster.Remark, &cluster.CreateTime, &cluster.UpdateTime)
+		err = rows.Scan(&cluster.Id, &cluster.Zone, &cluster.Host, &cluster.Token, &cluster.Remark, &cluster.Version, &cluster.CreateTime, &cluster.UpdateTime)
 		if err != nil {
 			d.logger.Errorf("fail to scan row, err:%v", err)
 			continue

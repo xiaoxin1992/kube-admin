@@ -12,9 +12,9 @@ import (
 func (d *Dao) QueryByZone(ctx context.Context, zone string) (*models.QueryCluster, error) {
 	db := database.GetPool().GetSqlDB()
 	query := &models.QueryCluster{}
-	querySQL := "select id, zone, host, token, remark, create_time, update_time from cluster where zone = ?"
+	querySQL := "select id, zone, host, token, remark, version, create_time, update_time from cluster where zone = ?"
 	row := db.QueryRowContext(ctx, querySQL, zone)
-	err := row.Scan(&query.Id, &query.Zone, &query.Host, &query.Token, &query.Remark, &query.CreateTime, &query.UpdateTime)
+	err := row.Scan(&query.Id, &query.Zone, &query.Host, &query.Token, &query.Remark, &query.Version, &query.CreateTime, &query.UpdateTime)
 	return query, err
 }
 

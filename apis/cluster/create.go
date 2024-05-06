@@ -9,7 +9,7 @@ import (
 )
 
 func CrateCluster(ctx *gin.Context) {
-	data := models.Cluster{}
+	data := models.CreateCluster{}
 	response := models.Response{Code: http.StatusBadRequest}
 	if err := ctx.ShouldBind(&data); err != nil {
 		response.Message = "缺少参数"
