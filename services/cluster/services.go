@@ -7,7 +7,7 @@ import (
 
 func NewCluster() *Service {
 	return &Service{
-		logger: logger.GetLogger().S("services").Named("user"),
+		logger: logger.GetLogger().S("services").Named("cluster"),
 	}
 }
 
