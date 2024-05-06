@@ -6,6 +6,7 @@ import (
 	"github.com/xiaoxin1992/kube-admin/apis/auth"
 	"github.com/xiaoxin1992/kube-admin/apis/cluster"
 	"github.com/xiaoxin1992/kube-admin/apis/ping"
+	"github.com/xiaoxin1992/kube-admin/apis/pods"
 	"github.com/xiaoxin1992/kube-admin/apis/users"
 	"github.com/xiaoxin1992/kube-admin/pkg/ginx"
 	"net/http"
@@ -38,4 +39,13 @@ func init() {
 	register(http.MethodPost, "/cluster/delete", true, cluster.DeleteCluster)
 	register(http.MethodGet, "/cluster/list", true, cluster.ListCluster)
 	/*cluster 集群管理接口结束*/
+
+	/* node 管理接口开始*/
+	/* node 管理接口结束*/
+
+	/* pods 管理接口开始*/
+	register(http.MethodGet, "/pods/list", true, pods.ListPods)
+	register(http.MethodPost, "/pods/create", true, pods.CreatePod)
+	register(http.MethodPost, "/pods/delete", true, pods.DeletePod)
+	/* pods 管理接口结束*/
 }
