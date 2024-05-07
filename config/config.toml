@@ -5,7 +5,7 @@ host = "127.0.0.1"
 port = 8080
 
 [logger]
-path = "logs/kms.log"
+path = "logs/kube-admin.log"
 IsFile = true               # 是否日志写入文件
 console = true              # 是否在consul打印日志
 format = "text"             # text或json格式

@@ -5,6 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/xiaoxin1992/kube-admin/apis/auth"
 	"github.com/xiaoxin1992/kube-admin/apis/cluster"
+	"github.com/xiaoxin1992/kube-admin/apis/namespace"
+	"github.com/xiaoxin1992/kube-admin/apis/nodes"
 	"github.com/xiaoxin1992/kube-admin/apis/ping"
 	"github.com/xiaoxin1992/kube-admin/apis/pods"
 	"github.com/xiaoxin1992/kube-admin/apis/users"
@@ -40,7 +42,14 @@ func init() {
 	register(http.MethodGet, "/cluster/list", true, cluster.ListCluster)
 	/*cluster 集群管理接口结束*/
 
+	/* namespace 管理接口开始*/
+	register(http.MethodGet, "/namespace/list", true, namespace.ListNamespace)
+	register(http.MethodPost, "/namespace/create", true, namespace.CreateNamespace)
+	register(http.MethodPost, "/namespace/delete", true, namespace.DeleteNamespace)
+	/* namespace 管理接口结束*/
+
 	/* node 管理接口开始*/
+	register(http.MethodGet, "/nodes/list", true, nodes.ListNode)
 	/* node 管理接口结束*/
 
 	/* pods 管理接口开始*/

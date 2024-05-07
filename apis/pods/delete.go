@@ -13,7 +13,7 @@ func DeletePod(ctx *gin.Context) {
 	req := models.DeletePod{}
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		response.Message = "缺少参数"
-		logger.GetLogger().S("http").Named("user").Errorf("获取参数错误 %v", err)
+		logger.GetLogger().S("http").Named("pod").Errorf("获取参数错误 %v", err)
 		ctx.JSON(http.StatusBadRequest, response)
 		return
 	}

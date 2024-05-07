@@ -1,15 +1,13 @@
-package pods
+package node
 
 import (
 	"github.com/xiaoxin1992/kube-admin/pkg/logger"
 	"go.uber.org/zap"
 )
 
-const defaultName = "default"
-
-func NewServices() *Services {
+func NewService() *Services {
 	return &Services{
-		logger: logger.GetLogger().S("services").Named("pods"),
+		logger: logger.GetLogger().S("services").Named("node"),
 	}
 }
 
