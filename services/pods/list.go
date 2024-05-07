@@ -37,9 +37,13 @@ func (s *Services) ListPods(ctx context.Context, req models.QueryList) models.Re
 		response.Message = "获取Pod列表出错!"
 		return response
 	}
-
+	offset := (req.Page - 1) * req.Size
+	podItems := pods.Items
+	if req.Page*req.Size < len(total.Items) {
+		podItems = pods.Items[offset:]
+	}
 	podList := make([]interface{}, 0)
-	for _, pod := range pods.Items {
+	for _, pod := range podItems {
 		p := pkgK8s.PodAnalysis(&pod)
 		podList = append(podList, p)
 	}

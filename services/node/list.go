@@ -36,8 +36,12 @@ func (s *Services) ListNode(ctx context.Context, req models.QueryList) models.Re
 		response.Message = "获取node列表出错!"
 		return response
 	}
-
-	for _, node := range nodes.Items {
+	offset := (req.Page - 1) * req.Size
+	nodeItems := nodes.Items
+	if req.Page*req.Size < len(total.Items) {
+		nodeItems = nodes.Items[offset:]
+	}
+	for _, node := range nodeItems {
 		nList := models.ListNode{
 			Name:       node.Name,
 			Labels:     node.GetLabels(),

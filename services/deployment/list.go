@@ -35,8 +35,12 @@ func (s *Services) ListDeployment(ctx context.Context, req models.QueryList) mod
 		response.Message = "获取deployment列表出错!"
 		return response
 	}
-
-	for _, deployment := range deployments.Items {
+	offset := (req.Page - 1) * req.Size
+	deploymentsItems := deployments.Items
+	if req.Page*req.Size < len(total.Items) {
+		deploymentsItems = deployments.Items[offset:]
+	}
+	for _, deployment := range deploymentsItems {
 		deploy := models.Deployment{
 			Name:              deployment.Name,
 			Namespace:         deployment.Namespace,

@@ -35,8 +35,12 @@ func (s *Services) ListConfigmap(ctx context.Context, req models.QueryList) mode
 		response.Message = "获取configmap列表出错!"
 		return response
 	}
-
-	for _, configmap := range configmaps.Items {
+	offset := (req.Page - 1) * req.Size
+	configmapItems := configmaps.Items
+	if req.Page*req.Size < len(total.Items) {
+		configmapItems = configmaps.Items[offset:]
+	}
+	for _, configmap := range configmapItems {
 		cmp := models.ListConfigMap{
 			Name:        configmap.Name,
 			Namespace:   configmap.Namespace,

@@ -35,7 +35,12 @@ func (s *Services) ListNamespaces(ctx context.Context, req models.QueryList) mod
 		response.Message = "获取namespace列表出错!"
 		return response
 	}
-	for _, ns := range namespaces.Items {
+	offset := (req.Page - 1) * req.Size
+	namespacesItems := namespaces.Items
+	if req.Page*req.Size < len(total.Items) {
+		namespacesItems = namespaces.Items[offset:]
+	}
+	for _, ns := range namespacesItems {
 		nsList = append(nsList, models.ListNamespace{
 			Namespace: models.Namespace{
 				Name:  ns.GetName(),
