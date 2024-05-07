@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/xiaoxin1992/kube-admin/apis/auth"
 	"github.com/xiaoxin1992/kube-admin/apis/cluster"
+	"github.com/xiaoxin1992/kube-admin/apis/configmap"
 	"github.com/xiaoxin1992/kube-admin/apis/namespace"
 	"github.com/xiaoxin1992/kube-admin/apis/nodes"
 	"github.com/xiaoxin1992/kube-admin/apis/ping"
@@ -57,4 +58,13 @@ func init() {
 	register(http.MethodPost, "/pods/create", true, pods.CreatePod)
 	register(http.MethodPost, "/pods/delete", true, pods.DeletePod)
 	/* pods 管理接口结束*/
+
+	/* configmap 管理接口开始*/
+	register(http.MethodPost, "/configmap/create", true, configmap.CreateConfigmap)
+	register(http.MethodPost, "/configmap/delete", true, configmap.DeleteConfigmap)
+	register(http.MethodPost, "/configmap/update", true, configmap.UpdateConfigmap)
+	register(http.MethodGet, "/configmap/list", true, configmap.ListConfigmap)
+	register(http.MethodGet, "/configmap/detail", true, configmap.DetailConfigmap)
+	/* configmap 管理接口结束*/
+
 }

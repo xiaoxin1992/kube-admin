@@ -31,9 +31,9 @@ func (s *Services) ListNode(ctx context.Context, req models.QueryList) models.Re
 	}
 	nodes, err := client.CoreV1().Nodes().List(ctx, opts)
 	if err != nil {
-		s.logger.Errorf("get namespace list error: %v", err)
+		s.logger.Errorf("get node list error: %v", err)
 		response.Code = http.StatusInternalServerError
-		response.Message = "获取namespace列表出错!"
+		response.Message = "获取node列表出错!"
 		return response
 	}
 
