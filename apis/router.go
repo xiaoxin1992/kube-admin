@@ -6,6 +6,7 @@ import (
 	"github.com/xiaoxin1992/kube-admin/apis/auth"
 	"github.com/xiaoxin1992/kube-admin/apis/cluster"
 	"github.com/xiaoxin1992/kube-admin/apis/configmap"
+	"github.com/xiaoxin1992/kube-admin/apis/deployment"
 	"github.com/xiaoxin1992/kube-admin/apis/namespace"
 	"github.com/xiaoxin1992/kube-admin/apis/nodes"
 	"github.com/xiaoxin1992/kube-admin/apis/ping"
@@ -66,5 +67,13 @@ func init() {
 	register(http.MethodGet, "/configmap/list", true, configmap.ListConfigmap)
 	register(http.MethodGet, "/configmap/detail", true, configmap.DetailConfigmap)
 	/* configmap 管理接口结束*/
+
+	/* deployment 管理接口开始*/
+	register(http.MethodPost, "/deployment/create", true, deployment.CreateDeployment)
+	register(http.MethodPost, "/deployment/delete", true, deployment.DeleteDeployment)
+	register(http.MethodPost, "/deployment/update", true, deployment.Updatedeployment)
+	register(http.MethodGet, "/deployment/list", true, deployment.ListDeployment)
+	register(http.MethodGet, "/deployment/detail", true, deployment.DetailDeployment)
+	/* deployment 管理接口结束*/
 
 }

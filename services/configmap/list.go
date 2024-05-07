@@ -11,7 +11,6 @@ import (
 func (s *Services) ListConfigmap(ctx context.Context, req models.QueryList) models.Response {
 	response := models.Response{}
 	configmapList := make([]models.ListConfigMap, 0)
-	//nodeList := make([]models.ListNode, 0)
 	client, err := k8s.NewService().GetClient(ctx, req.Zone)
 	if err != nil {
 		s.logger.Errorf("get k8s client error: %v", err)
@@ -32,7 +31,7 @@ func (s *Services) ListConfigmap(ctx context.Context, req models.QueryList) mode
 	configmaps, err := client.CoreV1().ConfigMaps(req.Namespace).List(ctx, opts)
 	if err != nil {
 		s.logger.Errorf("get configmap list error: %v", err)
-		response.Code = http.StatusInternalServerError
+		response.Code = http.StatusBadRequest
 		response.Message = "获取configmap列表出错!"
 		return response
 	}
