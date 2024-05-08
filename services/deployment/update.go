@@ -38,7 +38,7 @@ func (s *Services) UpdateDeployment(ctx context.Context, req models.UpdateDeploy
 	}
 	_, err = client.AppsV1().Deployments(req.Deployment.Namespace).Update(ctx, &req.Deployment, metav1.UpdateOptions{})
 	if err != nil {
-		s.logger.Errorf("update configmap %s error: %v", req.Deployment.Name, err)
+		s.logger.Errorf("update deployment %s error: %v", req.Deployment.Name, err)
 		response.Code = http.StatusBadRequest
 		response.Message = fmt.Sprintf("更新deployment %s 出错 %v", req.Deployment.Name, err)
 	} else {

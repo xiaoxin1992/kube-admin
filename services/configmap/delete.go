@@ -27,8 +27,8 @@ func (s *Services) DeleteConfigmap(ctx context.Context, req models.DeleteConfigm
 		} else {
 			s.logger.Errorf("get configmap %s err: %v", req.Name, err)
 			response.Message = fmt.Sprintf("configmap %s 查询出错: %v", req.Name, err)
-
 		}
+		return response
 	}
 	err = client.CoreV1().ConfigMaps(req.Namespace).Delete(ctx, req.Name, metav1.DeleteOptions{})
 	if err != nil {

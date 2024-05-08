@@ -24,8 +24,9 @@ func (s *Services) DeleteDeployment(ctx context.Context, req models.DeleteDeploy
 		response.Code = http.StatusNotFound
 		if k8sError.IsNotFound(err) {
 			response.Message = fmt.Sprintf("deployment %s 不存在!", req.Name)
+		} else {
+			response.Message = fmt.Sprintf("查询deployment %s 出错: %v!", req.Name, err)
 		}
-		response.Message = fmt.Sprintf("查询deployment %s 出错: %v!", req.Name, err)
 		return response
 	}
 	err = client.AppsV1().Deployments(req.Namespace).Delete(ctx, req.Name, metav1.DeleteOptions{})
@@ -35,7 +36,7 @@ func (s *Services) DeleteDeployment(ctx context.Context, req models.DeleteDeploy
 		response.Message = fmt.Sprintf("删除deployment %s 出错: %v!", req.Name, err)
 		return response
 	}
-	response.Code = http.StatusNotFound
+	response.Code = http.StatusOK
 	response.Message = fmt.Sprintf("删除deployment %s 完成!", req.Name)
 	return response
 }

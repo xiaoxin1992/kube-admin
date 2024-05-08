@@ -44,20 +44,23 @@ func (s *Services) ListDeployment(ctx context.Context, req models.QueryList) mod
 		deploy := models.Deployment{
 			Name:              deployment.Name,
 			Namespace:         deployment.Namespace,
-			Labels:            deployment.Labels,
+			Labels:            make(map[string]string),
 			Replicas:          deployment.Status.Replicas,
 			UpdatedReplicas:   deployment.Status.UpdatedReplicas,
 			AvailableReplicas: deployment.Status.AvailableReplicas,
 			CreateTime:        deployment.CreationTimestamp.Time.Format("2006-01-02 15:04:05"),
 		}
+		if len(deployment.Labels) > 0 {
+			deploy.Labels = deployment.Labels
+		}
 		deploymnetList = append(deploymnetList, deploy)
 	}
 	response.Code = http.StatusOK
 	response.Data = map[string]interface{}{
-		"configmaps": deploymnetList,
-		"page":       req.Page,
-		"size":       req.Size,
-		"total":      len(total.Items),
+		"deployments": deploymnetList,
+		"page":        req.Page,
+		"size":        req.Size,
+		"total":       len(total.Items),
 	}
 	return response
 }

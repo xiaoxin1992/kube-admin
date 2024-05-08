@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func Updatedeployment(ctx *gin.Context) {
+func UpdateDeployment(ctx *gin.Context) {
 	response := models.Response{}
 	req := models.UpdateDeployment{}
 	if err := ctx.ShouldBindJSON(&req); err != nil {
