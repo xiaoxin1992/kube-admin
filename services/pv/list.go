@@ -38,7 +38,7 @@ func (s *Services) ListPV(ctx context.Context, req models.QueryList) models.Resp
 	}
 	offset := (req.Page - 1) * req.Size
 	pvItems := pvs.Items
-	if req.Page*req.Size < len(total.Items) {
+	if req.Page*req.Size <= len(total.Items) {
 		pvItems = pvs.Items[offset:]
 	}
 	for _, pv := range pvItems {

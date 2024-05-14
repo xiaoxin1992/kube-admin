@@ -37,7 +37,7 @@ func (s *Services) ListSecret(ctx context.Context, req models.QueryList) models.
 	}
 	offset := (req.Page - 1) * req.Size
 	secretsItems := secrets.Items
-	if req.Page*req.Size < len(total.Items) {
+	if req.Page*req.Size <= len(total.Items) {
 		secretsItems = secrets.Items[offset:]
 	}
 	for _, secret := range secretsItems {

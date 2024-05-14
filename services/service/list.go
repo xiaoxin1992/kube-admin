@@ -39,7 +39,7 @@ func (s *Services) ListService(ctx context.Context, req models.QueryList) models
 	}
 	offset := (req.Page - 1) * req.Size
 	serviceItems := serviceList.Items
-	if req.Page*req.Size < len(total.Items) {
+	if req.Page*req.Size <= len(total.Items) {
 		serviceItems = serviceList.Items[offset:]
 	}
 	for _, service := range serviceItems {

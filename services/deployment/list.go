@@ -37,7 +37,7 @@ func (s *Services) ListDeployment(ctx context.Context, req models.QueryList) mod
 	}
 	offset := (req.Page - 1) * req.Size
 	deploymentsItems := deployments.Items
-	if req.Page*req.Size < len(total.Items) {
+	if req.Page*req.Size <= len(total.Items) {
 		deploymentsItems = deployments.Items[offset:]
 	}
 	for _, deployment := range deploymentsItems {

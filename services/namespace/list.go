@@ -37,7 +37,7 @@ func (s *Services) ListNamespaces(ctx context.Context, req models.QueryList) mod
 	}
 	offset := (req.Page - 1) * req.Size
 	namespacesItems := namespaces.Items
-	if req.Page*req.Size < len(total.Items) {
+	if req.Page*req.Size <= len(total.Items) {
 		namespacesItems = namespaces.Items[offset:]
 	}
 	for _, ns := range namespacesItems {

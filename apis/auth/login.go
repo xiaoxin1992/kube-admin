@@ -19,5 +19,5 @@ func Login(ctx *gin.Context) {
 		return
 	}
 	response = login.NewService().Login(ctx, userInfo.Username, userInfo.Password)
-	ctx.JSON(http.StatusOK, response)
+	ctx.JSON(response.Code, response)
 }

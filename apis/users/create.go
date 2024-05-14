@@ -17,6 +17,7 @@ func CreateUser(ctx *gin.Context) {
 	response := &models.Response{
 		Code:    http.StatusBadRequest,
 		Message: "",
+		Data:    make(map[string]interface{}),
 	}
 	if err := ctx.ShouldBind(&user); err != nil {
 		response.Message = "缺少参数"

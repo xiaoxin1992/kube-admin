@@ -37,7 +37,7 @@ func (s *Services) ListCronjob(ctx context.Context, req models.QueryList) models
 	}
 	offset := (req.Page - 1) * req.Size
 	cronjobItems := cronjobs.Items
-	if req.Page*req.Size < len(total.Items) {
+	if req.Page*req.Size <= len(total.Items) {
 		cronjobItems = cronjobs.Items[offset:]
 	}
 	for _, cronjob := range cronjobItems {

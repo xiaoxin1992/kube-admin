@@ -39,7 +39,7 @@ func (s *Services) ListPods(ctx context.Context, req models.QueryList) models.Re
 	}
 	offset := (req.Page - 1) * req.Size
 	podItems := pods.Items
-	if req.Page*req.Size < len(total.Items) {
+	if req.Page*req.Size <= len(total.Items) {
 		podItems = pods.Items[offset:]
 	}
 	podList := make([]interface{}, 0)

@@ -6,7 +6,7 @@ type Cluster struct {
 	Zone   string `json:"zone" form:"id" binding:"required"`
 	Host   string `json:"host" form:"id" binding:"required"`
 	Token  string `json:"token" form:"id" binding:"required"`
-	Remark string `json:"remark" form:"id" binding:"required"`
+	Remark string `json:"remark" form:"id"`
 }
 
 type CreateCluster struct {

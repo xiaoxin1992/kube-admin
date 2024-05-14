@@ -38,7 +38,7 @@ func (s *Services) ListNode(ctx context.Context, req models.QueryList) models.Re
 	}
 	offset := (req.Page - 1) * req.Size
 	nodeItems := nodes.Items
-	if req.Page*req.Size < len(total.Items) {
+	if req.Page*req.Size <= len(total.Items) {
 		nodeItems = nodes.Items[offset:]
 	}
 	for _, node := range nodeItems {

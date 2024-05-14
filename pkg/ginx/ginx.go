@@ -15,6 +15,7 @@ import (
 
 func Init(host string, port int, level string) *GinX {
 	r := gin.Default()
+	r.Use(middleware.Cors())
 	if level != "debug" {
 		gin.SetMode(gin.ReleaseMode)
 	}

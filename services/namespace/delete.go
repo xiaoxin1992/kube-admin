@@ -41,6 +41,6 @@ func (s *Services) DeleteNamespace(ctx context.Context, req models.DeleteNamespa
 		response.Message = fmt.Sprintf("删除 namespace %s 出错: %v", req.Name, err)
 	}
 	response.Code = http.StatusOK
-	response.Data = fmt.Sprintf("删除 namespace %s 完成", req.Name)
+	response.Message = fmt.Sprintf("删除 namespace %s 完成", req.Name)
 	return response
 }

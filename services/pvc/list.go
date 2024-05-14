@@ -38,7 +38,7 @@ func (s *Services) ListPersistentVolumeClaim(ctx context.Context, req models.Que
 	}
 	offset := (req.Page - 1) * req.Size
 	pvcItems := pvcs.Items
-	if req.Page*req.Size < len(total.Items) {
+	if req.Page*req.Size <= len(total.Items) {
 		pvcItems = pvcs.Items[offset:]
 	}
 	for _, pvc := range pvcItems {

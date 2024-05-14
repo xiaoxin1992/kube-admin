@@ -37,7 +37,7 @@ func (s *Services) ListStateFulSet(ctx context.Context, req models.QueryList) mo
 	}
 	offset := (req.Page - 1) * req.Size
 	stsItems := stss.Items
-	if req.Page*req.Size < len(total.Items) {
+	if req.Page*req.Size <= len(total.Items) {
 		stsItems = stss.Items[offset:]
 	}
 	for _, sts := range stsItems {

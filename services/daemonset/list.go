@@ -37,7 +37,7 @@ func (s *Services) ListDaemonSet(ctx context.Context, req models.QueryList) mode
 	}
 	offset := (req.Page - 1) * req.Size
 	daemonSetItems := daemonSets.Items
-	if req.Page*req.Size < len(total.Items) {
+	if req.Page*req.Size <= len(total.Items) {
 		daemonSetItems = daemonSets.Items[offset:]
 	}
 	for _, ds := range daemonSetItems {
