@@ -3,7 +3,7 @@ package pods
 import (
 	"context"
 	models "github.com/xiaoxin1992/kube-admin/models/pods"
-	pkgK8s "github.com/xiaoxin1992/kube-admin/pkg/k8s"
+	"github.com/xiaoxin1992/kube-admin/pkg"
 	"github.com/xiaoxin1992/kube-admin/services/k8s"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/http"
@@ -37,15 +37,12 @@ func (s *Services) ListPods(ctx context.Context, req models.QueryList) models.Re
 		response.Message = "获取Pod列表出错!"
 		return response
 	}
-	offset := (req.Page - 1) * req.Size
 	podItems := pods.Items
-	if req.Page*req.Size <= len(total.Items) {
-		podItems = pods.Items[offset:]
-	}
+	offset, limits := pkg.Page(req.Page, req.Size, len(total.Items))
+	podItems = pods.Items[offset:limits]
 	podList := make([]interface{}, 0)
 	for _, pod := range podItems {
-		p := pkgK8s.PodAnalysis(&pod)
-		podList = append(podList, p)
+		podList = append(podList, pod)
 	}
 	response.Code = http.StatusOK
 	response.Data = map[string]interface{}{

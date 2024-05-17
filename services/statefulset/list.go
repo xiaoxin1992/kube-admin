@@ -3,6 +3,7 @@ package statefulset
 import (
 	"context"
 	models "github.com/xiaoxin1992/kube-admin/models/statefulset"
+	"github.com/xiaoxin1992/kube-admin/pkg"
 	"github.com/xiaoxin1992/kube-admin/services/k8s"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/http"
@@ -35,11 +36,9 @@ func (s *Services) ListStateFulSet(ctx context.Context, req models.QueryList) mo
 		response.Message = "获取StatefulSet列表出错!"
 		return response
 	}
-	offset := (req.Page - 1) * req.Size
 	stsItems := stss.Items
-	if req.Page*req.Size <= len(total.Items) {
-		stsItems = stss.Items[offset:]
-	}
+	offset, limits := pkg.Page(req.Page, req.Size, len(total.Items))
+	stsItems = stss.Items[offset:limits]
 	for _, sts := range stsItems {
 		st := models.StateFulSet{
 			Name:          sts.Name,

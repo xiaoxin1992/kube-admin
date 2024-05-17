@@ -3,6 +3,7 @@ package cronjob
 import (
 	"context"
 	models "github.com/xiaoxin1992/kube-admin/models/cronjob"
+	"github.com/xiaoxin1992/kube-admin/pkg"
 	"github.com/xiaoxin1992/kube-admin/services/k8s"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/http"
@@ -35,11 +36,9 @@ func (s *Services) ListCronjob(ctx context.Context, req models.QueryList) models
 		response.Message = "获取cronjob列表出错!"
 		return response
 	}
-	offset := (req.Page - 1) * req.Size
 	cronjobItems := cronjobs.Items
-	if req.Page*req.Size <= len(total.Items) {
-		cronjobItems = cronjobs.Items[offset:]
-	}
+	offset, limits := pkg.Page(req.Page, req.Size, len(total.Items))
+	cronjobItems = cronjobs.Items[offset:limits]
 	for _, cronjob := range cronjobItems {
 		cron := models.Cronjob{
 			Name:               cronjob.Name,

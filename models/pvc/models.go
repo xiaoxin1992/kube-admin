@@ -21,10 +21,10 @@ type CreatePersistentVolumeClaim struct {
 }
 
 type QueryList struct {
-	Zone     string `json:"zone" form:"zone" binding:"required"`
-	Namspace string `json:"namespace" form:"namespace" binding:"required"`
-	Size     int    `json:"size,omitempty" form:"size" binding:"required"`
-	Page     int    `json:"page,omitempty" form:"page" binding:"required"`
+	Zone      string `json:"zone" form:"zone" binding:"required"`
+	Namespace string `json:"namespace" form:"namespace" binding:"required"`
+	Size      int    `json:"size,omitempty" form:"size" binding:"required"`
+	Page      int    `json:"page,omitempty" form:"page" binding:"required"`
 }
 
 type DeletePersistentVolumeClaim struct {

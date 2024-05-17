@@ -3,6 +3,7 @@ package node
 import (
 	"context"
 	models "github.com/xiaoxin1992/kube-admin/models/node"
+	"github.com/xiaoxin1992/kube-admin/pkg"
 	"github.com/xiaoxin1992/kube-admin/services/k8s"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -36,11 +37,9 @@ func (s *Services) ListNode(ctx context.Context, req models.QueryList) models.Re
 		response.Message = "获取node列表出错!"
 		return response
 	}
-	offset := (req.Page - 1) * req.Size
 	nodeItems := nodes.Items
-	if req.Page*req.Size <= len(total.Items) {
-		nodeItems = nodes.Items[offset:]
-	}
+	offset, limits := pkg.Page(req.Page, req.Size, len(total.Items))
+	nodeItems = nodes.Items[offset:limits]
 	for _, node := range nodeItems {
 		nList := models.ListNode{
 			Name:       node.Name,

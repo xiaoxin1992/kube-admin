@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	models "github.com/xiaoxin1992/kube-admin/models/pv"
+	"github.com/xiaoxin1992/kube-admin/pkg"
 	"github.com/xiaoxin1992/kube-admin/services/k8s"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/http"
@@ -36,11 +37,9 @@ func (s *Services) ListPV(ctx context.Context, req models.QueryList) models.Resp
 		response.Message = fmt.Sprintf("获取 pv 出错: %v!", err)
 		return response
 	}
-	offset := (req.Page - 1) * req.Size
 	pvItems := pvs.Items
-	if req.Page*req.Size <= len(total.Items) {
-		pvItems = pvs.Items[offset:]
-	}
+	offset, limits := pkg.Page(req.Page, req.Size, len(total.Items))
+	pvItems = pvs.Items[offset:limits]
 	for _, pv := range pvItems {
 		fmt.Println(pv)
 		pvTemp := models.PV{

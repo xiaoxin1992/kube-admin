@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	models "github.com/xiaoxin1992/kube-admin/models/service"
+	"github.com/xiaoxin1992/kube-admin/pkg"
 	"github.com/xiaoxin1992/kube-admin/services/k8s"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -37,11 +38,9 @@ func (s *Services) ListService(ctx context.Context, req models.QueryList) models
 		response.Message = fmt.Sprintf("获取 service 出错: %v!", err)
 		return response
 	}
-	offset := (req.Page - 1) * req.Size
 	serviceItems := serviceList.Items
-	if req.Page*req.Size <= len(total.Items) {
-		serviceItems = serviceList.Items[offset:]
-	}
+	offset, limits := pkg.Page(req.Page, req.Size, len(total.Items))
+	serviceItems = serviceList.Items[offset:limits]
 	for _, service := range serviceItems {
 		si := models.Service{
 			Name:       service.Name,

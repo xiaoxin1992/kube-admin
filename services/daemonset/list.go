@@ -3,6 +3,7 @@ package daemonset
 import (
 	"context"
 	models "github.com/xiaoxin1992/kube-admin/models/daemonset"
+	"github.com/xiaoxin1992/kube-admin/pkg"
 	"github.com/xiaoxin1992/kube-admin/services/k8s"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/http"
@@ -35,11 +36,9 @@ func (s *Services) ListDaemonSet(ctx context.Context, req models.QueryList) mode
 		response.Message = "获取daemonSet列表出错!"
 		return response
 	}
-	offset := (req.Page - 1) * req.Size
 	daemonSetItems := daemonSets.Items
-	if req.Page*req.Size <= len(total.Items) {
-		daemonSetItems = daemonSets.Items[offset:]
-	}
+	offset, limits := pkg.Page(req.Page, req.Size, len(total.Items))
+	daemonSetItems = daemonSets.Items[offset:limits]
 	for _, ds := range daemonSetItems {
 		d := models.DaemonSet{
 			Name:                   ds.Name,

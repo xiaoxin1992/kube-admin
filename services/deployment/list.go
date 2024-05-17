@@ -3,6 +3,7 @@ package deployment
 import (
 	"context"
 	models "github.com/xiaoxin1992/kube-admin/models/deployment"
+	"github.com/xiaoxin1992/kube-admin/pkg"
 	"github.com/xiaoxin1992/kube-admin/services/k8s"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/http"
@@ -10,7 +11,7 @@ import (
 
 func (s *Services) ListDeployment(ctx context.Context, req models.QueryList) models.Response {
 	response := models.Response{}
-	deploymnetList := make([]models.Deployment, 0)
+	//deploymnetList := make([]interface{}, 0)
 	client, err := k8s.NewService().GetClient(ctx, req.Zone)
 	if err != nil {
 		s.logger.Errorf("get k8s client error: %v", err)
@@ -35,29 +36,27 @@ func (s *Services) ListDeployment(ctx context.Context, req models.QueryList) mod
 		response.Message = "获取deployment列表出错!"
 		return response
 	}
-	offset := (req.Page - 1) * req.Size
 	deploymentsItems := deployments.Items
-	if req.Page*req.Size <= len(total.Items) {
-		deploymentsItems = deployments.Items[offset:]
-	}
-	for _, deployment := range deploymentsItems {
-		deploy := models.Deployment{
-			Name:              deployment.Name,
-			Namespace:         deployment.Namespace,
-			Labels:            make(map[string]string),
-			Replicas:          deployment.Status.Replicas,
-			UpdatedReplicas:   deployment.Status.UpdatedReplicas,
-			AvailableReplicas: deployment.Status.AvailableReplicas,
-			CreateTime:        deployment.CreationTimestamp.Time.Format("2006-01-02 15:04:05"),
-		}
-		if len(deployment.Labels) > 0 {
-			deploy.Labels = deployment.Labels
-		}
-		deploymnetList = append(deploymnetList, deploy)
-	}
+	offset, limits := pkg.Page(req.Page, req.Size, len(total.Items))
+	deploymentsItems = deployments.Items[offset:limits]
+	//for _, deployment := range deploymentsItems {
+	//	//deploy := models.Deployment{
+	//	//	Name:              deployment.Name,
+	//	//	Namespace:         deployment.Namespace,
+	//	//	Labels:            make(map[string]string),
+	//	//	Replicas:          deployment.Status.Replicas,
+	//	//	UpdatedReplicas:   deployment.Status.UpdatedReplicas,
+	//	//	AvailableReplicas: deployment.Status.AvailableReplicas,
+	//	//	CreateTime:        deployment.CreationTimestamp.Time.Format("2006-01-02 15:04:05"),
+	//	//}
+	//	//if len(deployment.Labels) > 0 {
+	//	//	deploy.Labels = deployment.Labels
+	//	//}
+	//	deploymnetList = append(deploymnetList, deployment)
+	//}
 	response.Code = http.StatusOK
 	response.Data = map[string]interface{}{
-		"deployments": deploymnetList,
+		"deployments": deploymentsItems,
 		"page":        req.Page,
 		"size":        req.Size,
 		"total":       len(total.Items),

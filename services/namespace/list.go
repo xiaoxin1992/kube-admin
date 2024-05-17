@@ -3,6 +3,7 @@ package namespace
 import (
 	"context"
 	models "github.com/xiaoxin1992/kube-admin/models/namespace"
+	"github.com/xiaoxin1992/kube-admin/pkg"
 	"github.com/xiaoxin1992/kube-admin/services/k8s"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/http"
@@ -35,11 +36,9 @@ func (s *Services) ListNamespaces(ctx context.Context, req models.QueryList) mod
 		response.Message = "获取namespace列表出错!"
 		return response
 	}
-	offset := (req.Page - 1) * req.Size
 	namespacesItems := namespaces.Items
-	if req.Page*req.Size <= len(total.Items) {
-		namespacesItems = namespaces.Items[offset:]
-	}
+	offset, limits := pkg.Page(req.Page, req.Size, len(total.Items))
+	namespacesItems = namespaces.Items[offset:limits]
 	for _, ns := range namespacesItems {
 		nsList = append(nsList, models.ListNamespace{
 			Namespace: models.Namespace{
