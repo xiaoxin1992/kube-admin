@@ -30,6 +30,7 @@ func register(method, uri string, auth bool, handlers gin.HandlerFunc) {
 func init() {
 	/* ping 接口开始 */
 	register(http.MethodGet, "ping", false, ping.List)
+	register(http.MethodGet, "wsPing", false, ping.Ping)
 	/* ping 接口结束 */
 
 	/* 登陆接口开始*/
@@ -65,6 +66,8 @@ func init() {
 	register(http.MethodGet, "/pods/list", true, pods.ListPods)
 	register(http.MethodPost, "/pods/create", true, pods.CreatePod)
 	register(http.MethodPost, "/pods/delete", true, pods.DeletePod)
+	register(http.MethodGet, "/pods/logs", false, pods.LogsPods)
+	register(http.MethodGet, "/pods/cmd", false, pods.CmdPods)
 	/* pods 管理接口结束*/
 
 	/* configmap 管理接口开始*/

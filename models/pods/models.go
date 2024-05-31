@@ -44,6 +44,22 @@ type DeletePod struct {
 	Name      string `json:"name" form:"name" binding:"required"`
 }
 
+type LogsPod struct {
+	Zone      string `json:"zone" form:"zone" binding:"required"`
+	Namespace string `json:"namespace" form:"namespace" binding:"required"`
+	Name      string `json:"name" form:"name" binding:"required"`
+	Container string `json:"container" form:"container"`
+	TailLines int64  `json:"tailLines" form:"tailLines"`
+}
+
+type CmdPod struct {
+	Zone      string `json:"zone" form:"zone" binding:"required"`
+	Namespace string `json:"namespace" form:"namespace" binding:"required"`
+	Name      string `json:"name" form:"name" binding:"required"`
+	Container string `json:"container" form:"container" binding:"required"`
+	Cmd       string `json:"cmd" form:"cmd" binding:"required"`
+}
+
 type Response struct {
 	Code    int         `json:"code"`
 	Message string      `json:"message,omitempty"`

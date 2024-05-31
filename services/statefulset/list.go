@@ -11,7 +11,7 @@ import (
 
 func (s *Services) ListStateFulSet(ctx context.Context, req models.QueryList) models.Response {
 	response := models.Response{}
-	stsList := make([]models.StateFulSet, 0)
+	//stsList := make([]models.StateFulSet, 0)
 	client, err := k8s.NewService().GetClient(ctx, req.Zone)
 	if err != nil {
 		s.logger.Errorf("get k8s client error: %v", err)
@@ -39,23 +39,23 @@ func (s *Services) ListStateFulSet(ctx context.Context, req models.QueryList) mo
 	stsItems := stss.Items
 	offset, limits := pkg.Page(req.Page, req.Size, len(total.Items))
 	stsItems = stss.Items[offset:limits]
-	for _, sts := range stsItems {
-		st := models.StateFulSet{
-			Name:          sts.Name,
-			Namespace:     sts.Namespace,
-			Labels:        make(map[string]string),
-			Replicas:      sts.Status.Replicas,
-			ReadyReplicas: sts.Status.ReadyReplicas,
-			CreateTime:    sts.CreationTimestamp.Time.Format("2006-01-02 15:04:05"),
-		}
-		if len(sts.Labels) > 0 {
-			st.Labels = sts.Labels
-		}
-		stsList = append(stsList, st)
-	}
+	//for _, sts := range stsItems {
+	//	st := models.StateFulSet{
+	//		Name:          sts.Name,
+	//		Namespace:     sts.Namespace,
+	//		Labels:        make(map[string]string),
+	//		Replicas:      sts.Status.Replicas,
+	//		ReadyReplicas: sts.Status.ReadyReplicas,
+	//		CreateTime:    sts.CreationTimestamp.Time.Format("2006-01-02 15:04:05"),
+	//	}
+	//	if len(sts.Labels) > 0 {
+	//		st.Labels = sts.Labels
+	//	}
+	//	stsList = append(stsList, st)
+	//}
 	response.Code = http.StatusOK
 	response.Data = map[string]interface{}{
-		"StatefulSet": stsList,
+		"StatefulSet": stsItems,
 		"page":        req.Page,
 		"size":        req.Size,
 		"total":       len(total.Items),
