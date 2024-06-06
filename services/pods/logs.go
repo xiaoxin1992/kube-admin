@@ -30,9 +30,9 @@ func (s *Services) LogsPod(ctx *gin.Context, req models.LogsPod) models.Response
 		TailLines: &req.TailLines,
 	}
 	logReq := k.CoreV1().Pods(req.Namespace).GetLogs(req.Name, &opt)
-	ctxTimeout, cancel := context.WithTimeout(ctx, time.Minute*5)
+	logCtx, cancel := context.WithCancel(ctx)
 	defer cancel()
-	stream, err := logReq.Stream(ctxTimeout)
+	stream, err := logReq.Stream(logCtx)
 	if err != nil {
 		s.logger.Errorf("create k8s  logs stream err: %+v", err)
 		result.Code = 400
@@ -69,6 +69,7 @@ func (s *Services) LogsPod(ctx *gin.Context, req models.LogsPod) models.Response
 				break
 			}
 		}
+
 		defer func() {
 			exitChan <- true
 		}()

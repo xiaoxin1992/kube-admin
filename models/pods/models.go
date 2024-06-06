@@ -44,6 +44,12 @@ type DeletePod struct {
 	Name      string `json:"name" form:"name" binding:"required"`
 }
 
+type DeleteMultiplePods struct {
+	Zone      string   `json:"zone" form:"zone" binding:"required"`
+	Namespace string   `json:"namespace" form:"namespace" binding:"required"`
+	Pods      []string `json:"pods" form:"pods" binding:"required"`
+}
+
 type LogsPod struct {
 	Zone      string `json:"zone" form:"zone" binding:"required"`
 	Namespace string `json:"namespace" form:"namespace" binding:"required"`

@@ -66,6 +66,7 @@ func init() {
 	register(http.MethodGet, "/pods/list", true, pods.ListPods)
 	register(http.MethodPost, "/pods/create", true, pods.CreatePod)
 	register(http.MethodPost, "/pods/delete", true, pods.DeletePod)
+	register(http.MethodPost, "/pods/delete/multiple", true, pods.DeleteMultiplePods)
 	register(http.MethodGet, "/pods/logs", false, pods.LogsPods)
 	register(http.MethodGet, "/pods/cmd", false, pods.CmdPods)
 	/* pods 管理接口结束*/

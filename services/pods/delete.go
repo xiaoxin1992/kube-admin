@@ -45,3 +45,40 @@ func (s *Services) DeletePod(ctx context.Context, req models.DeletePod) models.R
 	response.Message = fmt.Sprintf("删除Pod %s 完成!", req.Name)
 	return response
 }
+
+func (s *Services) DeleteMultiplePods(ctx context.Context, req models.DeleteMultiplePods) models.Response {
+	response := models.Response{}
+	k, err := k8s.NewService().GetClient(ctx, req.Zone)
+	if err != nil {
+		s.logger.Errorf("get k8s client err: %+v", err)
+		response.Message = "获取集群信息出错!"
+		response.Code = http.StatusBadRequest
+		return response
+	}
+	if len(req.Pods) == 0 {
+		response.Code = http.StatusBadRequest
+		response.Message = "请选择要删除的Pod!"
+		return response
+	}
+	for _, pod := range req.Pods {
+		if podObj, checkPodErr := k.CoreV1().Pods(req.Namespace).Get(ctx, pod, metav1.GetOptions{}); checkPodErr != nil {
+			s.logger.Errorf("list pods err: %+v", checkPodErr)
+			continue
+		} else {
+			if podObj.GetDeletionTimestamp() == nil {
+				deletePodErr := k.CoreV1().Pods(req.Namespace).Delete(ctx, pod, metav1.DeleteOptions{})
+				if err != nil {
+					s.logger.Errorf("delete pod err: %+v", deletePodErr)
+					response.Code = http.StatusBadRequest
+					response.Message = fmt.Sprintf("删除Pod %s出错", pod)
+					return response
+				}
+			} else {
+				s.logger.Warnf("pod %s is terminated", pod)
+			}
+		}
+	}
+	response.Code = http.StatusOK
+	response.Message = "pod列表删除完成!"
+	return response
+}
