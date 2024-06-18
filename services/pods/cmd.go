@@ -100,7 +100,11 @@ func (s *Services) CmdPod(ctx *gin.Context, req models.CmdPod) models.Response {
 		s.logger.Errorf("upgrade websocket err: %+v", err)
 		return models.Response{}
 	}
-	defer ws.Close()
+	defer func() {
+		if wsErr := ws.Close(); wsErr != nil {
+			s.logger.Errorf("close websocket err: %+v", wsErr)
+		}
+	}()
 	ws.SetCloseHandler(func(code int, text string) error {
 		s.logger.Errorf("close websocket code: %d, text: %s", code, text)
 		return nil
@@ -132,6 +136,10 @@ func (s *Services) CmdPod(ctx *gin.Context, req models.CmdPod) models.Response {
 	}, clientConfig, request)
 	if err != nil {
 		s.logger.Errorf("cmd exec err: %+v", err)
+		err = ws.WriteMessage(websocket.TextMessage, []byte(err.Error()))
+		if err != nil {
+			s.logger.Errorf("write cmd info error: %+v", err)
+		}
 	}
 	s.logger.Warn("websocket exit...")
 	return models.Response{}
