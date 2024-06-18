@@ -36,6 +36,8 @@ func (w *WebsocketCommand) Read(p []byte) (int, error) {
 	_, msgContent, err := w.ws.ReadMessage()
 	if err != nil {
 		if websocket.IsUnexpectedCloseError(err, websocket.CloseNormalClosure) {
+			// 这里为什么要发送一个exit给k8s流
+			// 因为在websocket断开后，这个流断开也，但是后台的bash进程一直存在，所以需要发送一个exit现推出在断开
 			closeTExt := "exit\r"
 			copy(p, closeTExt)
 			w.cancel()
